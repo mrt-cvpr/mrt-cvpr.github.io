@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MRT: Masked Region Transformer for Layered Image Generation and Editing at Scale</title>
+<meta name="description" content="MRT is a 20B-parameter masked region diffusion model that unifies text-to-layers, image-to-layers, and layers-to-layers generation for multi-layer transparent image synthesis and editing." />
+<meta property="og:title" content="MRT: Masked Region Transformer for Layered Image Generation and Editing at Scale" />
+<meta property="og:description" content="A unified 20B masked region diffusion framework for multi-layer transparent image generation and editing." />
+<meta property="og:image" content="static/images/teaser.jpg" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="static/css/style.css" />
+</head>
+<body>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero">
+    <div class="container">
+        <div class="venue-badge">CVPR 2026</div>
+        <h1>
+            <span class="mrt">MRT</span>: Masked Region Transformer<br />
+            for Layered Image Generation and Editing at Scale
+        </h1>
+        <p class="subtitle">
+            A unified 20B-parameter diffusion framework for text-to-layers, image-to-layers, and layers-to-layers synthesis &amp; editing.
+        </p>
+
+        <p class="authors">
+            <span class="author">Zhicong Tang<sup>1*</sup></span>,
+            <span class="author">Jingye Chen<sup>2*</sup></span>,
+            <span class="author">Zhao Zhang<sup>3*</sup></span>,
+            <span class="author">Mohan Zhou<sup>4</sup></span>,
+            <span class="author">Yuchi Liu<sup>5</sup></span>,
+            <span class="author">Yifan Pu<sup>1</sup></span>,
+            <span class="author">Yalong Bai<sup>3</sup></span>,
+            <span class="author">Ethan Smith<sup>3</sup></span>,
+            <span class="author">Yuhui Yuan<sup>3</sup>&#9993;</span>
+        </p>
+        <p class="affiliations">
+            <sup>1</sup>Tsinghua University &nbsp;&middot;&nbsp;
+            <sup>2</sup>HKUST &nbsp;&middot;&nbsp;
+            <sup>3</sup>Canva Research &nbsp;&middot;&nbsp;
+            <sup>4</sup>Harbin Institute of Technology &nbsp;&middot;&nbsp;
+            <sup>5</sup>Australian National University
+        </p>
+        <p class="corr"><sup>*</sup>Equal contribution &nbsp;&middot;&nbsp; &#9993; Corresponding author: <a href="mailto:ryanyuan@canva.com">ryanyuan@canva.com</a></p>
+
+        <div class="affil-logos">
+            <img src="static/logos/tsinghua.svg" alt="Tsinghua University" />
+            <img src="static/logos/hkust.svg" alt="HKUST" />
+            <img src="static/logos/canva.svg" alt="Canva" />
+            <img src="static/logos/hit.svg" alt="Harbin Institute of Technology" />
+            <img src="static/logos/anu.svg" alt="Australian National University" />
+        </div>
+
+        <div class="button-row">
+            <a class="btn" href="#abstract">
+                <span>Paper</span>
+            </a>
+            <a class="btn outline" href="#bibtex">
+                <span>BibTeX</span>
+            </a>
+            <a class="btn outline" href="#method">
+                <span>Method</span>
+            </a>
+            <a class="btn outline" href="#results">
+                <span>Results</span>
+            </a>
+        </div>
+    </div>
+</header>
+
+<!-- ===================== TEASER ===================== -->
+<section style="padding-top: 40px; padding-bottom: 20px;">
+    <div class="container">
+        <div class="figure">
+            <img src="static/images/teaser.jpg" alt="MRT teaser figure showing four task capabilities" />
+            <div class="caption">
+                <strong>Overview of Masked Region Transformer capabilities.</strong>
+                Our framework supports four tasks within a unified model: (1) text-to-layers generation,
+                (2) image-to-layers decomposition, (3) layer addition with new user-specified elements, and
+                (4) layer restylization with user-provided assets.
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== ABSTRACT ===================== -->
+<section id="abstract" class="alt">
+    <div class="container narrow">
+        <h2 class="section-title">Abstract</h2>
+        <p class="section-subtitle">A scalable framework for region-aware, fully-editable visual layer generation.</p>
+        <p class="abstract">
+            <strong>Layered image generation and editing</strong> is a fundamental capability that enables layer-wise reuse,
+            editing, and composition of generated visual content&mdash;analogous to word-level editing in natural language.
+            Despite its importance, this remains an underexplored area at scale. To address this gap, we present <strong>MRT</strong>,
+            a <strong>20B-parameter masked region diffusion model</strong> tailored for multi-layer transparent image generation
+            and editing, trained on <strong>over 10M multilingual design samples</strong> spanning diverse aspect ratios and textual prompts.
+        </p>
+        <p class="abstract">
+            To fully leverage this scale, we make two key technical contributions.
+            <strong>First</strong>, we unify three complementary tasks&mdash;text-to-layers, image-to-layers, and layers-to-layers&mdash;
+            within a shared masked region diffusion framework, where selective token masking enables flexible layer-wise generation and editing.
+            <strong>Second</strong>, to enable overflow layer generation, we introduce an <strong>overflow-aware canvas layer</strong>
+            that handles boundary inconsistencies and supports semi-transparent background synthesis,
+            producing complete editable layers that extend beyond visible canvas boundaries.
+            Additionally, we apply diffusion distillation to achieve <strong>8-step real-time</strong> multi-layer generation
+            with minimal quality degradation.
+        </p>
+        <p class="abstract">
+            Extensive experiments demonstrate that our framework substantially outperforms prior state-of-the-art approaches,
+            including various commercial systems, across all three tasks, establishing a new benchmark for multi-layer transparent
+            image generation. Notably, our model significantly outperforms the concurrent <em>Qwen-Image-Layered</em> in image-to-layers
+            quality according to user-study results, while achieving <strong>10&ndash;100&times; faster inference</strong> and saving
+            <strong>50&ndash;90% activation GPU memory</strong>.
+        </p>
+
+        <div class="highlights">
+            <div class="highlight">
+                <div class="num">20B</div>
+                <div class="label">Diffusion transformer built on Qwen-Image</div>
+            </div>
+            <div class="highlight">
+                <div class="num">10M+</div>
+                <div class="label">Multilingual layered design samples</div>
+            </div>
+            <div class="highlight">
+                <div class="num">43M+</div>
+                <div class="label">Unique transparent layers</div>
+            </div>
+            <div class="highlight">
+                <div class="num">3-in-1</div>
+                <div class="label">T2L &middot; I2L &middot; L2L unified</div>
+            </div>
+            <div class="highlight">
+                <div class="num">8 steps</div>
+                <div class="label">Distilled real-time inference</div>
+            </div>
+            <div class="highlight">
+                <div class="num">10&ndash;100&times;</div>
+                <div class="label">Faster than Qwen-Image-Layered on I2L</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== METHOD ===================== -->
+<section id="method">
+    <div class="container">
+        <h2 class="section-title">Method</h2>
+        <p class="section-subtitle">A masked region transformer unifies three layered-generation tasks through selective token masking.</p>
+
+        <div class="figure">
+            <img src="static/images/framework.jpg" alt="MRT framework diagram" />
+            <div class="caption">
+                <strong>The MRT framework.</strong> Multi-layer transparent images are represented as a canvas layer, a semi-transparent
+                background layer, and <em>K</em> foreground RGBA layers. A WAN-2.1-VAE encoder produces regional latents, and an anonymous
+                <em>region transformer</em> with 20B parameters (built on Qwen-Image) performs full attention jointly across canvas, background,
+                and foreground tokens. An <strong>adaptive masking</strong> mechanism selects whether each layer is initialized from clean latents
+                or noise, allowing a single model to handle text&rarr;layers, image&rarr;layers, and layers&rarr;layers tasks.
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== OVERFLOW ===================== -->
+<section id="overflow" class="alt">
+    <div class="container">
+        <h2 class="section-title">Overflow-Aware Canvas Layer</h2>
+        <p class="section-subtitle">
+            Over 60% of professional designs contain layers that extend beyond the canvas&mdash;cropping them destroys reusability.
+        </p>
+        <div class="figure">
+            <img src="static/images/overflow_demo.jpg" alt="Overflow layer demo" />
+            <div class="caption">
+                <strong>Why overflow layers matter.</strong>
+                Row&nbsp;1 visualizes the canvas layer with a fully transparent background, exposing pixels that extend beyond the visible region.
+                Rows&nbsp;2&ndash;3 compare multi-layer generation <em>without</em> overflow support (baseline) and <em>with</em> overflow support
+                (ours). Full-size overflow generation is essential for complete editability and reusability&mdash;layers that would otherwise be
+                truncated at background boundaries remain fully editable in downstream design workflows.
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== RESULTS ===================== -->
+<section id="results">
+    <div class="container">
+        <h2 class="section-title">Results</h2>
+        <p class="section-subtitle">A single MRT model handles all three layered generation &amp; editing tasks.</p>
+
+        <div class="tab-group">
+            <div class="tabs">
+                <button class="tab active" data-target="tab-t2l">Text&rarr;Layers</button>
+                <button class="tab" data-target="tab-i2l">Image&rarr;Layers</button>
+                <button class="tab" data-target="tab-l2l">Layers&rarr;Layers</button>
+                <button class="tab" data-target="tab-fewstep">Few-Step</button>
+            </div>
+
+            <!-- T2L panel -->
+            <div id="tab-t2l" class="tab-panel active">
+                <div class="figure">
+                    <img src="static/images/results_t2l.png" alt="Text-to-Layers results" />
+                    <div class="caption">
+                        <strong>Text&rarr;Layers (T2L).</strong> MRT generates multi-layer transparent designs directly from text prompts,
+                        producing fully-editable, semi-transparent layers with high-fidelity multilingual typography and varied aspect ratios.
+                    </div>
+                </div>
+                <div class="figure">
+                    <img src="static/images/results_t2l_more.png" alt="More text-to-layers results" />
+                    <div class="caption">
+                        <strong>Additional T2L samples</strong> across resolutions, languages, and design styles.
+                    </div>
+                </div>
+                <div class="figure">
+                    <img src="static/images/results_t2l_ood.png" alt="Out-of-distribution T2L results" />
+                    <div class="caption">
+                        <strong>Out-of-distribution generalization.</strong> MRT handles novel concepts and prompts not represented in the training distribution.
+                    </div>
+                </div>
+                <div class="figure">
+                    <img src="static/images/user_study_t2l.png" alt="T2L user study" />
+                    <div class="caption">
+                        <strong>T2L user study.</strong> Human evaluators prefer MRT over prior open-source baselines and commercial systems
+                        across aesthetics, layout, and text quality.
+                    </div>
+                </div>
+            </div>
+
+            <!-- I2L panel -->
+            <div id="tab-i2l" class="tab-panel">
+                <div class="figure">
+                    <img src="static/images/results_i2l.png" alt="Image-to-Layers results" />
+                    <div class="caption">
+                        <strong>Image&rarr;Layers (I2L).</strong> Given a flat composite image, MRT decomposes it into semantically meaningful
+                        transparent layers&mdash;including text, shapes, and photographic elements&mdash;each independently editable.
+                    </div>
+                </div>
+                <div class="figure">
+                    <img src="static/images/results_i2l_real.png" alt="I2L on real natural images" />
+                    <div class="caption">
+                        <strong>I2L on real-world natural and design photos.</strong> Despite training primarily on design data, MRT
+                        generalizes to natural images and unseen design styles.
+                    </div>
+                </div>
+                <div class="figure">
+                    <img src="static/images/user_study_i2l.png" alt="I2L user study comparing MRT against Qwen-Image-Layered, LayerD, Lovart, RoboNeo" />
+                    <div class="caption">
+                        <strong>I2L user study.</strong> MRT significantly outperforms the concurrent <em>Qwen-Image-Layered</em>,
+                        LayerD, Lovart, and RoboNeo on layer-decomposition quality&mdash;while delivering
+                        <strong>10&ndash;100&times; faster inference</strong> and using <strong>50&ndash;90% less activation GPU memory</strong>.
+                    </div>
+                </div>
+            </div>
+
+            <!-- L2L panel -->
+            <div id="tab-l2l" class="tab-panel">
+                <div class="figure">
+                    <img src="static/images/results_l2l.png" alt="Layers-to-Layers results" />
+                    <div class="caption">
+                        <strong>Layers&rarr;Layers (L2L).</strong> MRT takes an existing layered design and produces a regenerated, edited,
+                        or restyled version&mdash;supporting layer addition, restylization, and multi-image fusion.
+                    </div>
+                </div>
+                <div class="figure">
+                    <img src="static/images/results_l2l_add_more.png" alt="L2L layer addition" />
+                    <div class="caption">
+                        <strong>Layer addition.</strong> MRT seamlessly integrates user-supplied images or assets into existing designs,
+                        producing harmonized layouts with consistent lighting and typography.
+                    </div>
+                </div>
+                <div class="figure">
+                    <img src="static/images/results_l2l_style_more.png" alt="L2L restylization" />
+                    <div class="caption">
+                        <strong>Restylization.</strong> Given a layered design plus a style reference, MRT regenerates each foreground layer
+                        in the target style while keeping the original layout.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Few-step panel -->
+            <div id="tab-fewstep" class="tab-panel">
+                <div class="figure">
+                    <img src="static/images/few_step.png" alt="Few-step diffusion distillation results" />
+                    <div class="caption">
+                        <strong>Few-step real-time generation.</strong> Distribution Matching Distillation reduces sampling to as few as
+                        <strong>8 NFEs</strong> with only marginal quality degradation, enabling real-time multi-layer synthesis on a
+                        single GPU.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== BIBTEX ===================== -->
+<section id="bibtex" class="alt">
+    <div class="container narrow">
+        <h2 class="section-title">BibTeX</h2>
+        <p class="section-subtitle">If you find this work useful, please consider citing us.</p>
+        <div class="bibtex">
+            <button class="copy-btn">Copy</button>
+<pre>@inproceedings{tang2026mrt,
+  title     = {MRT: Masked Region Transformer for Layered Image Generation and Editing at Scale},
+  author    = {Tang, Zhicong and Chen, Jingye and Zhang, Zhao and Zhou, Mohan and
+               Liu, Yuchi and Pu, Yifan and Bai, Yalong and Smith, Ethan and Yuan, Yuhui},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  year      = {2026}
+}</pre>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+    <p>
+        Page template inspired by <a href="https://nerfies.github.io/">Nerfies</a>.
+        &copy; 2026 The MRT authors.
+    </p>
+</footer>
+
+<script src="static/js/main.js"></script>
+</body>
+</html>
