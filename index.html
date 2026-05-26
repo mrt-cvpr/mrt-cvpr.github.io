@@ -70,6 +70,9 @@
             <a class="btn outline" href="#results">
                 <span>Results</span>
             </a>
+            <a class="btn outline" href="#efficiency">
+                <span>Efficiency</span>
+            </a>
         </div>
     </div>
 </header>
@@ -297,8 +300,51 @@
     </div>
 </section>
 
+<!-- ===================== EFFICIENCY ===================== -->
+<section id="efficiency" class="alt">
+    <div class="container">
+        <h2 class="section-title">Efficiency vs. Qwen-Image-Layered</h2>
+        <p class="section-subtitle">
+            Regional diffusion avoids the K&times; full-resolution token blow-up that grows linearly with the number of layers.
+        </p>
+
+        <div class="highlights">
+            <div class="highlight">
+                <div class="num">108.5&times;</div>
+                <div class="label">Peak speedup at ~20 layers vs. Qwen-Image-Layered</div>
+            </div>
+            <div class="highlight">
+                <div class="num">~5 s</div>
+                <div class="label">1K image, ~20 layers, single H100 GPU</div>
+            </div>
+            <div class="highlight">
+                <div class="num">~3 s</div>
+                <div class="label">Same workload on 4&times; H100 GPUs</div>
+            </div>
+            <div class="highlight">
+                <div class="num">10.5&ndash;23.6&times;</div>
+                <div class="label">Peak GPU memory reduction (scales with layer count)</div>
+            </div>
+        </div>
+
+        <div class="figure">
+            <img src="static/images/efficiency.png" alt="Inference efficiency comparison between MRT and Qwen-Image-Layered" />
+            <div class="caption">
+                <strong>Inference efficiency comparison between MRT and Qwen-Image-Layered.</strong>
+                <em>(a) Latency scaling with number of layers.</em> MRT maintains near-constant latency (~5 s) while
+                Qwen-Image-Layered scales linearly, yielding up to <strong>108.5&times; speedup</strong> at ~20 layers.
+                <em>(b) MRT inference time vs. token count</em> on H200 and B200 GPUs, demonstrating linear scaling behavior.
+                <em>(c) Peak GPU memory consumption</em> across varying layer configurations &mdash; the shaded region indicates
+                the baseline memory allocated to model weights. MRT reduces memory consumption by <strong>10.5&times; &rarr; 23.6&times;</strong>,
+                with efficiency gains scaling proportionally with the number of layers.
+                All results are measured over 100 samples on a single GPU with identical layer numbers.
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- ===================== BIBTEX ===================== -->
-<section id="bibtex" class="alt">
+<section id="bibtex">
     <div class="container narrow">
         <h2 class="section-title">BibTeX</h2>
         <p class="section-subtitle">If you find this work useful, please consider citing us.</p>
