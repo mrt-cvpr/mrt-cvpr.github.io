@@ -394,49 +394,54 @@ h2.section-title {
     animation: fadeIn 0.25s ease;
 }
 
-/* ---- Results: sticky left sidebar tab variant ---- */
-.results-layout {
-    display: grid;
-    grid-template-columns: 224px 1fr;
-    gap: 36px;
-    margin-top: 28px;
-    align-items: start;
-}
-
-.results-content { min-width: 0; }
-
+/* ---- Results: floating left-side tab panel ---- */
+/* On wide viewports the sidebar is position:fixed, floating to the left
+   of the centered 1100px container. It's only visible while #results is
+   in view (toggled via the .is-visible class added by JS). */
 .tabs.sidebar {
-    position: sticky;
-    top: 24px;
-    align-self: start;
+    position: fixed;
+    left: max(16px, calc((100vw - 1100px) / 2 - 240px));
+    top: 50%;
+    transform: translateY(-50%);
+    width: 216px;
+    z-index: 20;
+    margin: 0;
+    padding: 14px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    box-shadow: 0 12px 30px rgba(17, 21, 28, 0.12);
     flex-direction: column;
     align-items: stretch;
-    gap: 10px;
-    margin: 0;
-    padding: 0;
-    justify-content: flex-start;
-    flex-wrap: nowrap;
+    gap: 8px;
+    display: none;
+}
+
+.tabs.sidebar.is-visible {
+    display: flex;
 }
 
 .tabs.sidebar .tab {
     text-align: left;
-    padding: 14px 16px;
-    border-radius: 12px;
+    padding: 12px 14px;
+    border-radius: 10px;
     border: 2px solid var(--border);
     background: var(--bg-card);
-    font-size: 0.98rem;
+    font-size: 0.95rem;
     font-weight: 600;
     color: var(--text);
     line-height: 1.2;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 3px;
     box-shadow: 0 1px 2px rgba(17, 21, 28, 0.03);
 }
 
 .tabs.sidebar .tab small {
     display: block;
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     font-weight: 400;
     color: var(--muted);
     line-height: 1.35;
@@ -459,19 +464,32 @@ h2.section-title {
     color: rgba(255, 255, 255, 0.85);
 }
 
-@media (max-width: 900px) {
-    .results-layout {
-        grid-template-columns: 1fr;
-        gap: 18px;
-    }
-    .tabs.sidebar {
+/* When the viewport isn't wide enough for an off-canvas sidebar
+   (1100px content + 2*240px gutters = 1580), fall back to an inline
+   tab row above the panels. */
+@media (max-width: 1580px) {
+    .tabs.sidebar,
+    .tabs.sidebar.is-visible {
+        display: flex;
         position: static;
+        left: auto;
+        top: auto;
+        transform: none;
+        width: auto;
+        background: transparent;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        box-shadow: none;
+        border: none;
+        padding: 0;
+        margin: 0 0 28px;
         flex-direction: row;
         flex-wrap: wrap;
+        gap: 10px;
     }
     .tabs.sidebar .tab {
         flex: 1 1 calc(50% - 6px);
-        min-width: 160px;
+        min-width: 200px;
     }
 }
 

@@ -16,6 +16,22 @@ document.querySelectorAll('.hero a[href^="#"]').forEach(a => {
     });
 });
 
+// Show floating sidebar only while #results is in view.
+(() => {
+    const sidebar = document.querySelector('.tabs.sidebar');
+    const target = document.querySelector('#results');
+    if (!sidebar || !target) return;
+    const check = () => {
+        const rect = target.getBoundingClientRect();
+        const vh = window.innerHeight;
+        const inView = rect.top < vh - 80 && rect.bottom > 80;
+        sidebar.classList.toggle('is-visible', inView);
+    };
+    window.addEventListener('scroll', check, {passive: true});
+    window.addEventListener('resize', check);
+    check();
+})();
+
 // Tab switcher
 (() => {
 
