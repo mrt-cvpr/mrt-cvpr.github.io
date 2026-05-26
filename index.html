@@ -267,25 +267,83 @@
             <!-- I2L panel -->
             <div id="tab-i2l" class="tab-panel">
                 <div class="figure">
-                    <img src="static/images/results_i2l.png" alt="Image-to-Layers results" />
+                    <img src="static/images/i2l/m8_qualitative.png" alt="I2L qualitative comparison with LayerD, Lovart, RoboNeo, Qwen-Image-Layered" />
                     <div class="caption">
-                        <strong>Image&rarr;Layers (I2L).</strong> Given a flat composite image, MRT decomposes it into semantically meaningful
-                        transparent layers&mdash;including text, shapes, and photographic elements&mdash;each independently editable.
+                        <strong>Image&rarr;Layers (I2L) qualitative comparison.</strong> Each panel's top-left shows the composed image with its decomposed
+                        layers. MRT outperforms all baselines: Lovart shows poor decomposition quality, RoboNeo exhibits artifacts, and LayerD &amp;
+                        Qwen-Image-Layered produce overly-grouped layers.
                     </div>
                 </div>
                 <div class="figure">
-                    <img src="static/images/results_i2l_real.png" alt="I2L on real natural images" />
+                    <img src="static/images/i2l/m7_user_study.png" alt="I2L user study vs SOTA and commercial systems" />
                     <div class="caption">
-                        <strong>I2L on real-world natural and design photos.</strong> Despite training primarily on design data, MRT
-                        generalizes to natural images and unseen design styles.
+                        <strong>User study on image-to-layers.</strong> Blind evaluations against the strongest open-source and commercial
+                        systems across (i)&nbsp;quality (semantic correctness + transparency), (ii)&nbsp;integrity (faithful reconstruction),
+                        and (iii)&nbsp;granularity (appropriate decomposition).
+                    </div>
+                </div>
+                <div class="figure half">
+                    <img src="static/images/i2l/m9_qwen.jpg" alt="Detailed comparison with Qwen-Image-Layered on AI-generated images" />
+                    <div class="caption">
+                        <strong>Detailed comparison with Qwen-Image-Layered.</strong>
+                        <em>Left</em>: input image generated with Nano-Banana-Pro.
+                        <em>Middle</em>: Qwen-Image-Layered with 4 layers (official recommended setting) and matched to our layer count.
+                        <em>Right</em>: decomposition from MRT.
                     </div>
                 </div>
                 <div class="figure">
-                    <img src="static/images/user_study_i2l.png" alt="I2L user study comparing MRT against Qwen-Image-Layered, LayerD, Lovart, RoboNeo" />
+                    <img src="static/images/i2l/m11_natural.png" alt="I2L generalization on real natural images" />
                     <div class="caption">
-                        <strong>I2L user study.</strong> MRT significantly outperforms the concurrent <em>Qwen-Image-Layered</em>,
-                        LayerD, Lovart, and RoboNeo on layer-decomposition quality&mdash;while delivering
-                        <strong>10&ndash;100&times; faster inference</strong> and using <strong>50&ndash;90% less activation GPU memory</strong>.
+                        <strong>Generalization to out-of-domain natural images.</strong> Despite being trained exclusively on poster-style flat
+                        designs, MRT generalizes well to natural scenes and still outperforms Qwen-Image-Layered.
+                    </div>
+                </div>
+                <div class="figure">
+                    <img src="static/images/i2l/a3_attention.png" alt="Attention map visualization for I2L" />
+                    <div class="caption">
+                        <strong>Attention-map visualization.</strong> Left: input composite image and its layout. Right: decomposed layers (top)
+                        with the corresponding attention maps overlaid on the input image (bottom). Red regions indicate high activation, showing
+                        that the model's attention is semantically selective&mdash;accurately aligning with text, foreground objects, and background
+                        patterns.
+                    </div>
+                </div>
+                <div class="figure">
+                    <img src="static/images/i2l/a25b_layers16.png" alt="I2L decomposition with 16 layers" />
+                    <div class="caption">
+                        <strong>I2L decomposition with 16 layers.</strong> MRT scales gracefully to high layer counts (2&ndash;50 layers), producing
+                        coherent decompositions without architectural modifications.
+                    </div>
+                </div>
+                <div class="figure">
+                    <div class="figure-row cols-2">
+                        <img src="static/images/i2l/a26_qwen_v4_2.jpg" alt="Additional I2L comparison with Qwen-Image-Layered (1)" />
+                        <img src="static/images/i2l/a27_qwen_v4_3.jpg" alt="Additional I2L comparison with Qwen-Image-Layered (2)" />
+                    </div>
+                    <div class="caption">
+                        <strong>Additional comparisons with Qwen-Image-Layered.</strong> Two more sets of test designs showing consistent
+                        advantages of MRT in layer quality, integrity, and granularity.
+                    </div>
+                </div>
+                <div class="figure">
+                    <div class="figure-row cols-2">
+                        <img src="static/images/i2l/a28_pinterest.jpg" alt="I2L on Pinterest-style designs" />
+                        <img src="static/images/i2l/a29_qwen_ood.jpg" alt="I2L on Qwen-Image-Layered OOD designs" />
+                    </div>
+                    <div class="caption">
+                        <strong>More I2L results on out-of-distribution AI-generated images</strong> (Pinterest-style, left;
+                        Qwen-Image-Layered test set, right). MRT maintains high decomposition quality on designs that lie outside the training
+                        distribution.
+                    </div>
+                </div>
+                <div class="figure">
+                    <div class="figure-row cols-3">
+                        <img src="static/images/i2l/a34_layout_1.png" alt="I2L input vs layout (1)" />
+                        <img src="static/images/i2l/a35_layout_2.png" alt="I2L input vs layout (2)" />
+                        <img src="static/images/i2l/a36_layout_3.png" alt="I2L input vs layout (3)" />
+                    </div>
+                    <div class="caption">
+                        <strong>Image&rarr;Layers: merged image vs. layout visualization.</strong> Three examples showing the correspondence between
+                        the input raster image and the extracted layer layout structure (bounding boxes + z-order) that guides decomposition.
                     </div>
                 </div>
             </div>
