@@ -207,29 +207,62 @@
             <!-- T2L panel -->
             <div id="tab-t2l" class="tab-panel active">
                 <div class="figure">
-                    <img src="static/images/results_t2l.png" alt="Text-to-Layers results" />
+                    <img src="static/images/t2l/m6_qualitative.png" alt="Qualitative T2L results" />
                     <div class="caption">
-                        <strong>Text&rarr;Layers (T2L).</strong> MRT generates multi-layer transparent designs directly from text prompts,
+                        <strong>Qualitative results on text-to-layers.</strong> MRT generates multi-layer transparent designs directly from text prompts,
                         producing fully-editable, semi-transparent layers with high-fidelity multilingual typography and varied aspect ratios.
                     </div>
                 </div>
                 <div class="figure">
-                    <img src="static/images/results_t2l_more.png" alt="More text-to-layers results" />
+                    <img src="static/images/t2l/m5_user_study.png" alt="T2L user study vs. ART" />
                     <div class="caption">
-                        <strong>Additional T2L samples</strong> across resolutions, languages, and design styles.
+                        <strong>User study comparison with previous SOTA on text-to-layers.</strong> MRT significantly outperforms ART across
+                        overall preference, aesthetics, typography, and layout dimensions.
                     </div>
                 </div>
                 <div class="figure">
-                    <img src="static/images/results_t2l_ood.png" alt="Out-of-distribution T2L results" />
+                    <img src="static/images/t2l/a8_vis_page5.png" alt="T2L visualization with prompt, layout, generated, and individual layers" />
                     <div class="caption">
-                        <strong>Out-of-distribution generalization.</strong> MRT handles novel concepts and prompts not represented in the training distribution.
+                        <strong>Text-to-layers generation examples.</strong> For each row we visualize the input prompt, predicted layout,
+                        generated merged composition, and the individual transparent RGBA layers&mdash;showing strong alignment between
+                        textual descriptions and layered output.
                     </div>
                 </div>
                 <div class="figure">
-                    <img src="static/images/user_study_t2l.png" alt="T2L user study" />
+                    <img src="static/images/t2l/a11_overflow.png" alt="T2L with overflow layer generation" />
                     <div class="caption">
-                        <strong>T2L user study.</strong> Human evaluators prefer MRT over prior open-source baselines and commercial systems
-                        across aesthetics, layout, and text quality.
+                        <strong>Text-to-layers with overflow layer generation.</strong> MRT uniquely generates complete full-size RGBA layers
+                        that extend beyond the background boundary, preserving editability and reusability that previous methods sacrifice by
+                        truncating pixels at canvas boundaries.
+                    </div>
+                </div>
+                <div class="figure">
+                    <img src="static/images/t2l/a12_multilingual.png" alt="T2L multilingual examples" />
+                    <div class="caption">
+                        <strong>Text-to-layers with multilingual support.</strong> Trained on over 10M multilingual designs, MRT renders
+                        visually-grounded text in multiple languages including Chinese, handling typography across different writing systems
+                        while maintaining design quality.
+                    </div>
+                </div>
+                <div class="figure">
+                    <img src="static/images/t2l/a10_added.jpg" alt="Rich T2L results beyond flat designs" />
+                    <div class="caption">
+                        <strong>Beyond flat designs.</strong> Our model generates richly-textured images along with high-quality transparent
+                        layers, going well beyond simple poster-style flat designs.
+                    </div>
+                </div>
+                <div class="figure">
+                    <img src="static/images/t2l/a32_layout_2.png" alt="T2L merged image vs layout visualization" />
+                    <div class="caption">
+                        <strong>Merged image vs. layout visualization.</strong> A side-by-side comparison shows how MRT translates textual
+                        descriptions into visual compositions (left) with structured layer hierarchies (right).
+                    </div>
+                </div>
+                <div class="figure">
+                    <img src="static/images/t2l/a33_layout_3.png" alt="Another T2L layout visualization" />
+                    <div class="caption">
+                        <strong>Additional layout visualization.</strong> MRT organizes multiple layers with appropriate spatial relationships,
+                        z-ordering, and compositional balance, creating aesthetically-pleasing designs from text descriptions alone.
                     </div>
                 </div>
             </div>
