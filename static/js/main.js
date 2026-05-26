@@ -16,23 +16,6 @@ document.querySelectorAll('.hero a[href^="#"]').forEach(a => {
     });
 });
 
-// Show floating sidebar only while the viewport is actually inside #results
-// (the section's bounds straddle the middle of the viewport), so it does
-// not bleed into the adjacent Overflow / Efficiency sections.
-(() => {
-    const sidebar = document.querySelector('.tabs.sidebar');
-    const target = document.querySelector('#results');
-    if (!sidebar || !target) return;
-    const check = () => {
-        const rect = target.getBoundingClientRect();
-        const middle = window.innerHeight / 2;
-        const inside = rect.top <= middle && rect.bottom >= middle;
-        sidebar.classList.toggle('is-visible', inside);
-    };
-    window.addEventListener('scroll', check, {passive: true});
-    window.addEventListener('resize', check);
-    check();
-})();
 
 // Tab switcher
 (() => {
