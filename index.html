@@ -198,14 +198,14 @@
 
         <div class="tab-group">
             <div class="tabs">
-                <button class="tab active" data-target="tab-t2l">Text&rarr;Layers</button>
-                <button class="tab" data-target="tab-i2l">Image&rarr;Layers</button>
+                <button class="tab" data-target="tab-t2l">Text&rarr;Layers</button>
+                <button class="tab active" data-target="tab-i2l">Image&rarr;Layers</button>
                 <button class="tab" data-target="tab-l2l">Layers&rarr;Layers</button>
                 <button class="tab" data-target="tab-fewstep">Few-Step</button>
             </div>
 
             <!-- T2L panel -->
-            <div id="tab-t2l" class="tab-panel active">
+            <div id="tab-t2l" class="tab-panel">
                 <div class="figure">
                     <img src="static/images/t2l/m6_qualitative.png" alt="Qualitative T2L results" />
                     <div class="caption">
@@ -265,7 +265,7 @@
             </div>
 
             <!-- I2L panel -->
-            <div id="tab-i2l" class="tab-panel">
+            <div id="tab-i2l" class="tab-panel active">
                 <div class="figure">
                     <img src="static/images/i2l/m8_qualitative.png" alt="I2L qualitative comparison with LayerD, Lovart, RoboNeo, Qwen-Image-Layered" />
                     <div class="caption">
@@ -376,11 +376,11 @@
             <!-- Few-step panel -->
             <div id="tab-fewstep" class="tab-panel">
                 <div class="figure">
-                    <img src="static/images/few_step.png" alt="Few-step diffusion distillation results" />
+                    <img src="static/images/fewstep/a1_dmd_quality.png" alt="Generation quality of distilled models" />
                     <div class="caption">
-                        <strong>Few-step real-time generation.</strong> Distribution Matching Distillation reduces sampling to as few as
-                        <strong>8 NFEs</strong> with only marginal quality degradation, enabling real-time multi-layer synthesis on a
-                        single GPU.
+                        <strong>Generation quality of distilled models.</strong> For each design we compare the baseline (50 NFE) against
+                        DMD2-distilled variants at 16 NFE and 8 NFE. We achieve up to <strong>6&times; speedup</strong> without sacrificing
+                        image quality or fidelity, enabling real-time multi-layer synthesis on a single GPU.
                     </div>
                 </div>
             </div>
