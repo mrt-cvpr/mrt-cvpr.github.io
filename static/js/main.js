@@ -16,16 +16,18 @@ document.querySelectorAll('.hero a[href^="#"]').forEach(a => {
     });
 });
 
-// Show floating sidebar only while #results is in view.
+// Show floating sidebar only while the viewport is actually inside #results
+// (the section's bounds straddle the middle of the viewport), so it does
+// not bleed into the adjacent Overflow / Efficiency sections.
 (() => {
     const sidebar = document.querySelector('.tabs.sidebar');
     const target = document.querySelector('#results');
     if (!sidebar || !target) return;
     const check = () => {
         const rect = target.getBoundingClientRect();
-        const vh = window.innerHeight;
-        const inView = rect.top < vh - 80 && rect.bottom > 80;
-        sidebar.classList.toggle('is-visible', inView);
+        const middle = window.innerHeight / 2;
+        const inside = rect.top <= middle && rect.bottom >= middle;
+        sidebar.classList.toggle('is-visible', inside);
     };
     window.addEventListener('scroll', check, {passive: true});
     window.addEventListener('resize', check);
@@ -40,6 +42,7 @@ document.querySelectorAll('.hero a[href^="#"]').forEach(a => {
         const container = group.closest('.tab-group');
         if (!container) return;
         const panels = container.querySelectorAll('.tab-panel');
+        const resultsSection = document.querySelector('#results');
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
                 const target = tab.dataset.target;
@@ -48,6 +51,11 @@ document.querySelectorAll('.hero a[href^="#"]').forEach(a => {
                 tab.classList.add('active');
                 const panel = container.querySelector(`#${target}`);
                 if (panel) panel.classList.add('active');
+                // Jump back to the top of the Results section so the user
+                // sees the new panel from the start instead of mid-scroll.
+                if (resultsSection) {
+                    resultsSection.scrollIntoView({behavior: 'smooth', block: 'start'});
+                }
             });
         });
     });
