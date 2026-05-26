@@ -282,6 +282,42 @@ h2.section-title {
     color: var(--text);
 }
 
+/* Multi-column figure rows for tall images */
+.figure-row {
+    display: grid;
+    gap: 14px;
+    margin: 0 auto;
+    align-items: start;
+}
+
+.figure-row.cols-2 {
+    grid-template-columns: 1fr 1fr;
+}
+
+.figure-row.cols-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.figure-row img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(17, 21, 28, 0.08);
+    border: 1px solid var(--border);
+}
+
+.figure.half {
+    max-width: 640px;
+    margin: 24px auto;
+}
+
+@media (max-width: 720px) {
+    .figure-row.cols-2,
+    .figure-row.cols-3 {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* Highlight boxes */
 .highlights {
     display: grid;
