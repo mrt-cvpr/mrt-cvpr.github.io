@@ -1,5 +1,24 @@
+// Don't restore scroll on reload, and strip any leftover hash on load
+// so a stuck #results (etc.) doesn't auto-jump on refresh.
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+if (location.hash) {
+    history.replaceState(null, '', location.pathname + location.search);
+    window.scrollTo(0, 0);
+}
+
+// Hero nav anchors: smooth scroll without writing the hash to the URL.
+document.querySelectorAll('.hero a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (!target) return;
+        e.preventDefault();
+        target.scrollIntoView({behavior: 'smooth', block: 'start'});
+    });
+});
+
 // Tab switcher
-document.addEventListener('DOMContentLoaded', () => {
+(() => {
+
     document.querySelectorAll('.tabs').forEach(group => {
         const tabs = group.querySelectorAll('.tab');
         const container = group.closest('.tab-group');
@@ -32,4 +51,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-});
+})();
