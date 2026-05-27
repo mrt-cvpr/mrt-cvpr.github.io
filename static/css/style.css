@@ -162,6 +162,14 @@ a:hover {
     margin: 20px 0 8px;
 }
 
+.button-row.primary-row {
+    margin: 20px 0 4px;
+}
+
+.button-row.primary-row + .button-row {
+    margin-top: 8px;
+}
+
 .btn {
     display: inline-flex;
     align-items: center;
