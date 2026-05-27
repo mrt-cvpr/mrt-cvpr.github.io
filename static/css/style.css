@@ -394,15 +394,16 @@ h2.section-title {
     animation: fadeIn 0.25s ease;
 }
 
-/* ---- Results: sticky left-side tab panel ---- */
-/* The tab-group is a 3-column grid (gutter | 1100px content | gutter).
-   The sidebar lives in the LEFT gutter as a sticky element, so it
-   appears at the top of the Results section, follows the user while
-   they scroll through the panels, and scrolls out naturally when
-   #results ends. */
+/* ---- Results: floating sidebar with JS-driven dynamic position ---- */
+/* On wide screens (>=1580px) JS adds .is-floating to the sidebar and
+   updates its top each scroll tick so it:
+   (1) starts aligned with the top of #results (next to the title),
+   (2) glides toward the middle of the viewport as the user scrolls,
+   (3) parks at the vertical middle while they read the panels,
+   (4) rides out with the bottom of the section rather than vanishing.
+   On narrow viewports the sidebar is just an inline row above panels. */
 .results-tabgroup {
     margin-top: 28px;
-    padding: 0 24px;
 }
 
 .results-tabgroup .results-content {
@@ -418,34 +419,17 @@ h2.section-title {
     padding: 0;
 }
 
-@media (min-width: 1580px) {
-    .results-tabgroup {
-        display: grid;
-        grid-template-columns: 1fr 1100px 1fr;
-        align-items: start;
-        gap: 0;
-        padding: 0 24px;
-    }
-    .results-tabgroup > .tabs.sidebar {
-        grid-column: 1;
-        grid-row: 1;
-        justify-self: end;
-        width: 216px;
-        margin-right: 32px;
-        position: sticky;
-        top: 32px;
-        padding: 14px;
-        border-radius: 16px;
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border: 1px solid var(--border);
-        box-shadow: 0 12px 30px rgba(17, 21, 28, 0.12);
-    }
-    .results-tabgroup > .results-content {
-        grid-column: 2;
-        grid-row: 1;
-    }
+.tabs.sidebar.is-floating {
+    position: fixed;
+    width: 216px;
+    z-index: 10;
+    padding: 14px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    box-shadow: 0 12px 30px rgba(17, 21, 28, 0.12);
 }
 
 .tabs.sidebar .tab {
@@ -489,14 +473,23 @@ h2.section-title {
     color: rgba(255, 255, 255, 0.85);
 }
 
-/* Narrow viewports: tabs become an inline row above the panels. */
+/* Narrow viewports: tabs become an inline row above the panels (no floating). */
 @media (max-width: 1579px) {
-    .tabs.sidebar {
+    .tabs.sidebar,
+    .tabs.sidebar.is-floating {
+        position: static;
         flex-direction: row;
         flex-wrap: wrap;
         gap: 10px;
-        margin: 0 auto 28px;
-        max-width: 1100px;
+        margin: 0 0 28px;
+        width: auto;
+        max-width: 100%;
+        padding: 0;
+        background: transparent;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border: none;
+        box-shadow: none;
     }
     .tabs.sidebar .tab {
         flex: 1 1 calc(50% - 6px);
