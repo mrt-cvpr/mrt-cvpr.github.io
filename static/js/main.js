@@ -71,8 +71,19 @@ document.querySelectorAll('.hero a[href^="#"]').forEach(a => {
         sidebar.style.left = left + 'px';
     }
 
-    window.addEventListener('scroll', update, {passive: true});
-    window.addEventListener('resize', update);
+    // Debounce updates to one per animation frame so we don't fight
+    // Safari's momentum scroller with synchronous layout work.
+    let scheduled = false;
+    function onScroll() {
+        if (scheduled) return;
+        scheduled = true;
+        requestAnimationFrame(() => {
+            scheduled = false;
+            update();
+        });
+    }
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onScroll);
     update();
 })();
 

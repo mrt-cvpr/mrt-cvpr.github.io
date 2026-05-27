@@ -435,17 +435,30 @@ h2.section-title {
     padding: 0;
 }
 
-.tabs.sidebar.is-floating {
-    position: fixed;
-    width: 216px;
-    z-index: 10;
-    padding: 14px;
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid var(--border);
-    box-shadow: 0 12px 30px rgba(17, 21, 28, 0.12);
+/* On wide viewports the sidebar lives in fixed positioning at all times
+   so that toggling visibility never reshapes the document flow — that
+   reflow was what caused Safari's momentum scroller to judder when the
+   user crossed the Results section boundary. */
+@media (min-width: 1580px) {
+    .tabs.sidebar {
+        position: fixed;
+        display: none;
+        width: 216px;
+        z-index: 10;
+        padding: 14px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid var(--border);
+        box-shadow: 0 12px 30px rgba(17, 21, 28, 0.12);
+        /* Tell the browser this element will be animated on scroll so it
+           uses its own compositing layer and doesn't fight with momentum. */
+        will-change: top, left;
+    }
+    .tabs.sidebar.is-floating {
+        display: flex;
+    }
 }
 
 .tabs.sidebar .tab {
